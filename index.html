@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="index2.js"></script>
 </head>
 <style>
     @keyframes move{
@@ -104,7 +105,7 @@
         width: 700px;
 
     }
-     .music{
+    .music{
         width: 60px;
         height: 60px;
         position: fixed;
@@ -166,7 +167,7 @@
         text-align: center;
     }
     .begin .rules a{
-       color: black;
+        color: black;
         display: block;
         margin-right: 30px;
         float: right;
@@ -219,7 +220,7 @@
         margin-top: 43px;
     }
     /*游戏结束*/
-     .mask,.mask2{
+    .mask,.mask2{
         width: 100%;height: 100%;
         background: rgba(0,0,0,0.5);
         position: absolute;
@@ -228,39 +229,30 @@
         z-index:99;
     }
     .overbox{
-        width: 488px;height:422px;
+        width: 100%;height: 100%;
         background:url("img/over.png") no-repeat center;
+        position: absolute;
+        left: 0;right: 0;top: 0;bottom: 0;
         margin: auto;
-        /*background: yellow;*/
-        position: relative;
-        margin-top: 100px;
-        color: white;
-        font-size: 24px;
     }
     .score{
-        width: 90px;height: 30px;
-        /*background:green;*/
-        line-height: 30px;
-        position: absolute;
-        left:310px;
-        top:155px;
+        width: 100px;height: 50px;
+        margin-left: 750px;
+        margin-top: 270px;
+        line-height: 40px;
+        font-size: 20px;
     }
     .maxscore{
-        width: 90px;height: 30px;
-        /*background:green;*/
-        position: absolute;
-        left:310px;
-        top:205px;
-        line-height: 30px;
+        width: 100px;height: 50px;
+        margin-left: 750px;
+        line-height: 40px;
+        font-size: 20px;
     }
     .btns{
         width: 250px;height: 93px;
-        position: absolute;
-        top:270px;
-        left:0px;
-        right:0;
-        margin:auto;
-        /*background: red;*/
+        margin: 0 auto;
+        margin-top: 30px;
+
     }
 
     /*暂停界面*/
@@ -424,15 +416,15 @@
     <div class="rule">游戏规则</div>
     <div class="rules">
         <p>
-            <h3>游戏功能说明</h3>
-            <h4>(1)能够实现贪吃蛇自动向前移动：</h4>
-            <span>根据时间间隔,每一次将贪吃蛇的每节身体分别向前移动一格。移动方向为贪吃蛇当前行走方向。</span>
-            <h4>(2)贪吃蛇操作：</h4>
-            <span>游戏通过键盘的上下左右四个方向控制贪吃蛇当前行走方向,吃掉屏幕上出现的果实。每吃掉一个果实,蛇身增加一节。</span>
-            <h4>(3)游戏规则：</h4>
-            <span>在游戏中,贪吃蛇碰到墙壁和自己的身体时,宣告游戏结束。</span>
-            <h4>(4)果实的出现：</h4>
-            <span>在游戏中,果实的出现,采用随机方式.当前一个果实被吃掉时,屏幕上随机出现另一个果实.果实不与蛇身重合。</span>
+        <h3>游戏功能说明</h3>
+        <h4>(1)能够实现贪吃蛇自动向前移动：</h4>
+        <span>根据时间间隔,每一次将贪吃蛇的每节身体分别向前移动一格。移动方向为贪吃蛇当前行走方向。</span>
+        <h4>(2)贪吃蛇操作：</h4>
+        <span>游戏通过键盘的上下左右四个方向控制贪吃蛇当前行走方向,吃掉屏幕上出现的果实。每吃掉一个果实,蛇身增加一节。</span>
+        <h4>(3)游戏规则：</h4>
+        <span>在游戏中,贪吃蛇碰到墙壁和自己的身体时,宣告游戏结束。</span>
+        <h4>(4)果实的出现：</h4>
+        <span>在游戏中,果实的出现,采用随机方式.当前一个果实被吃掉时,屏幕上随机出现另一个果实.果实不与蛇身重合。</span>
         </p>
         <a href="javascript:;">&lt;&lt;BACK</a>
     </div>
@@ -473,321 +465,10 @@
     </div>
 </div>
 
-
 </body>
 </html>
+<script src="index2.js"></script>
 <script>
-    //获取元素
-    var music=document.querySelector('.music');
-    var audio=document.querySelector("audio");
-    var flag=true;
-    var totalflag=true;
-    var start=document.querySelector('.begin .start');
-    var begin=document.querySelector('.begin');
-    var game=document.querySelector('.game');
-    var box=document.querySelector('.game .box');
-    var mask=document.querySelector('.mask');
-    var t;
-    var pause=document.querySelector('.pause');
-    var mask2=document.querySelector('.mask2');
-    var continues=document.querySelector('.continue');
-    var stop_restart=document.querySelector('.stop-restart');
-    var stop_quit=document.querySelector('.stop-quit');
-    var choice=document.querySelector('.choice');
-    var difficlut=document.querySelector('.difficult');
-    var back=document.querySelector('.back');
-    var rule=document.querySelector('.rule');
-    var rules=document.querySelector('.rules');
-    var a=document.querySelector('.rules>a');
-    var scorinner=document.querySelector('.scorinner');
-    var scor;
-    var score=document.querySelector('.score');
-    var maxscore=document.querySelector('.maxscore');
-    var time=500;
-    var quit=document.querySelector('.quit');
-    var  restart=document.querySelector('.restart');
-    var bestscore=localStorage.score?localStorage.score:0;
-    var btn=document.querySelectorAll(".choosebox>div");
-    var choosebox=document.querySelector(".choosebox");
-    var great=document.querySelector('.great');
-    var acslent=document.querySelector('.acslent');
-    var world=document.querySelector('.world');
-    var she,food;
-    var way;
-    var newheadx,newheady,oldhead;
-//    console.log(btn)
-
-    //操作音乐
-    music.onclick=function(){
-        if(flag==true){
-            flag=false;
-            music.style.animationPlayState="paused";
-            audio.pause();
-        }else{
-            flag=true;
-            music.style.animationPlayState="running";
-            audio.play();
-        }
-    }
-
-
-//    开始游戏
-    start.onclick=function () {
-        if(totalflag){
-            totalflag=false;
-            begin.style.display='none';
-            game.style.display='block';
-            music.style.animationPlayState="paused";
-            audio.pause();
-            world.play();
-            totalflag=true;
-            init();
-            food=getFood();
-            t=setInterval(move,time);
-
-        }
-    }
-
-    //游戏暂停界面
-    pause.onclick=function () {
-        mask2.style.display='block';
-        clearInterval(t);
-    }
-    //继续游戏
-    continues.onclick=function () {
-        t=setInterval(move,time);
-        mask2.style.display='none';
-    }
-    //重新开始
-    stop_restart.onclick=function () {
-        for(let i=0;i<she.length;i++){
-            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
-            end.classList.remove('she');
-        }
-        she.splice(0,she.length);
-        init();
-        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
-        foodobj.classList.remove('food');
-        food=getFood();
-        t=setInterval(move,time);
-        mask2.style.display='none';
-    }
-
-    //返回游戏界面
-    stop_quit.onclick=function () {
-//        clearInterval(t);
-        mask2.style.display='none';
-        game.style.display='none';
-        begin.style.display='block';
-        world.pause();
-        if(flag){
-            music.style.animationPlayState="running";
-            audio.play();
-        }
-        for(let i=0;i<she.length;i++){
-            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
-            end.classList.remove('she');
-        }
-        she.splice(0,she.length);
-        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
-        foodobj.classList.remove('food');
-    }
-    //创建400个盒子
-    for (let i = 0; i < 20; i++) {
-        for (let j = 0; j < 20; j++) {
-            var div = document.createElement('div');
-            div.id = 'r' + j + '-' + i;
-            box.appendChild(div);
-        }
-    }
-    //初始化游戏
-    function init() {
-        //创建蛇
-        she = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0}];
-        she.forEach(function (value) {
-            let obj = document.querySelector('#r' + value.x + '-' + value.y);
-            obj.classList.add('she');
-        });
-        scor=0;
-        scorinner.innerHTML=scor;
-        way='right';
-    }
-
-    //创建食物
-    function getFood() {
-        //获取事物的位置
-        do{
-            var foodx=Math.floor(Math.random()*20);
-            var foody=Math.floor(Math.random()*20);
-        }while(check(foodx,foody));
-        let obj=document.querySelector('#r'+foodx+'-'+foody);
-        obj.classList.add('food');
-        //食物不能到蛇身上
-        return {x:foodx,y:foody};
-    }
-
-    //检查食物的位置与蛇的位置
-    function check(m,n) {
-//        console.log(she);
-        var result=she.some(function (value) {
-            return value.x==m && value.y==n;
-        });
-        return result;
-    }
-
-    //    蛇动
-        function move() {
-            oldhead=she[she.length-1];
-            switch (way){
-                case 'right':
-                    newheadx=oldhead.x+1;
-                    newheady=oldhead.y;
-                    break;
-                case 'left':
-                    newheadx=oldhead.x-1;
-                    newheady=oldhead.y;
-                    break;
-                case  'top':
-                    newheadx=oldhead.x;
-                    newheady=oldhead.y-1;
-                    break;
-                case 'bottom':
-                    newheadx=oldhead.x;
-                    newheady=oldhead.y+1;
-                    break;
-            }
-        if(newheadx<0||newheadx>19||newheady<0||newheady>19||check(newheadx,newheady)){
-            clearInterval(t);
-            world.pause();
-            mask.style.display='block';
-            score.innerHTML=scor;
-            maxscore.innerHTML=bestscore;
-            return;
-        }
-        var newheadobj=document.querySelector('#r'+newheadx+'-'+newheady);//下一个蛇头
-        newheadobj.className='she';//冲掉类名
-        she.push({x:newheadx,y:newheady});
-
-        if(newheadx==food.x&&newheady==food.y){
-            scor++;
-            scorinner.innerHTML=scor;
-            if(scor<5){
-                great.play();
-            }else{
-                acslent.play();
-            }
-            if(scor<bestscore){
-                maxscore.innerHTML=bestscore;
-            }else{
-                localStorage.score=scor;
-                bestscore=scor;
-                maxscore.innerHTML=bestscore;
-            }
-            food=getFood();
-        }else{
-            var endobj=document.querySelector('#r'+she[0].x+'-'+she[0].y);
-            endobj.classList.remove('she');
-            she.shift();
-        }
-    }
-
-    //判断方向
-    document.onkeydown=function (e) {
-        var ev=e.keyCode;
-        if(ev==37){
-            if(way=='right'){
-                return;
-            }
-            way='left';
-        }else if(ev==38){
-            if(way=='bottom'){
-                return;
-            }
-            way='top';
-        }if(ev==39){
-            if(way=='left'){
-                return;
-            }
-            way='right';
-        }if(ev==40){
-            if(way=='top'){
-                return;
-            }
-            way='bottom';
-        }
-    }
-//游戏结束
-    restart.onclick=function () {
-        world.play();
-        mask.style.display='none';
-        for(let i=0;i<she.length;i++){
-            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
-            end.classList.remove('she');
-        }
-        she.splice(0,she.length);
-        init();
-        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
-        foodobj.classList.remove('food');
-        food=getFood();
-        t=setInterval(move,time);
-    }
-    quit.onclick=function () {
-        mask.style.display='none';
-        game.style.display='none';
-        begin.style.display='block';
-        world.pause();
-        if(flag){
-            music.style.animationPlayState="running";
-            audio.play();
-        }
-        for(let i=0;i<she.length;i++){
-            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
-            end.classList.remove('she');
-        }
-        she.splice(0,she.length);
-        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
-        foodobj.classList.remove('food');
-
-    }
-
-//选择关卡
-    choice.onclick=function () {
-        if(totalflag){
-            totalflag=false;
-            difficlut.style.display='block';
-        }
-        back.onclick=function () {
-            difficlut.style.display='none';
-            totalflag=true;
-        }
-    }
-    for(let i=0;i<btn.length;i++){
-        btn[i].onclick=function () {
-            for(let i=0;i<btn.length;i++){
-                btn[i].style.boxShadow="none";
-            }
-            this.style.boxShadow="0 0 5px red";
-            if(this.className=='easy'){
-                time=500;
-            }else if(this.className=='mediu'){
-                time=300;
-            }else{
-                time=100;
-            }
-        }
-    }
-
-    //游戏规则
-    rule.onclick=function () {
-        if(totalflag){
-            totalflag=false;
-            rules.style.display='block';
-        }
-        a.onclick=function () {
-            rule.style.display='block';
-            rules.style.display='none';
-            totalflag=true;
-        }
-    }
-
+    let game=new Game();
+    game.starts();
 </script>
