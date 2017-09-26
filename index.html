@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    @keyframes move{
+        0%{
+            transform:translateX(0px);
+        }
+        25%{
+            transform:translateX(-50px);
+        }
+        50%{
+            transform:translateX(0px);
+        }
+        75%{
+            transform:translateX(50px);
+        }
+        100%{
+            transform:translateX(0px);
+        }
+    }
+    @keyframes rotate{
+        0%{
+            transform:rotate(0deg);
+        }
+        25%{
+            transform:rotate(90deg);
+        }
+        50%{
+            transform:rotate(180deg);
+        }
+        75%{
+            transform:rotate(270deg);
+        }
+        100%{
+            transform:rotate(360deg);
+        }
+    }
+    @keyframes mm{
+        0%{
+            transform:translateY(0px);
+        }
+        25%{
+            transform:translateY(-20px);
+        }
+        50%{
+            transform:translateY(0px);
+        }
+        75%{
+            transform:translateY(20px);
+        }
+        100%{
+            transform:translateY(0px);
+        }
+
+    }
+    @keyframes mmm{
+        0%{
+            transform:translateX(0px);
+        }
+        25%{
+            transform:translateX(-20px);
+        }
+        50%{
+            transform:translateX(0px);
+        }
+        75%{
+            transform:translateX(20px);
+        }
+        100%{
+            transform:translateX(0px);
+        }
+
+    }
+    *{
+        padding: 0;
+        margin:0;
+        list-style: none;
+        text-decoration: none;
+    }
+    html,body{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .begin{
+        width: 100%;
+        height: 100%;
+        background:url("img/begin.png")no-repeat;
+        background-size: cover;
+    }
+    .begin .text{
+        float: left;
+        margin: 50px;
+        animation:move 3s linear infinite;
+    }
+    .begin .text>img{
+        width: 700px;
+
+    }
+     .music{
+        width: 60px;
+        height: 60px;
+        position: fixed;
+        right: 50px;
+        top:50px;
+        background: url("img/music.png")no-repeat;
+        background-size: cover;
+        animation:rotate 3s linear infinite;
+    }
+    .begin .start,.choice,.rule{
+        width: 226px;
+        height: 52px;
+        position: absolute;
+        left:100px;
+        top:300px;
+        background: #FD5757;
+        border-radius: 10px;
+        text-align: center;line-height: 52px;
+        cursor: pointer;
+        color: white;
+        font-size: 20px;
+        transition: all 1s;
+    }
+    .begin .start:hover{
+        transform: scale(1.2);
+    }
+    .begin .choice{
+        top:380px;
+        transition: all 1s;
+    }
+    .begin .choice:hover{
+        transform: scale(1.2);
+    }
+    /*游戏规则*/
+    .begin .rule{
+        top:460px;
+        transition: all 1s;
+    }
+    .begin .rule:hover{
+        transform: scale(1.2);
+    }
+    .begin .rules{
+        width: auto;
+        height: auto;
+        position: absolute;
+        margin:auto;
+        top:270px;
+        left:400px;
+        padding:20px;
+        background: #F3DDA3;
+        color: #EA3942;
+        line-height: 30px;
+        border-radius: 10px;
+        animation:mm 3s linear infinite;
+        display: none;
+    }
+    .begin .rules h3{
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .begin .rules a{
+       color: black;
+        display: block;
+        margin-right: 30px;
+        float: right;
+    }
+    .begin .rules a:hover{
+        text-decoration: underline;
+        color: #EA3942;
+    }
+
+    /*游戏界面*/
+    .game{
+        width: 100%;
+        height: 100%;
+        background: url("img/games.jpg")no-repeat;
+        background-size: 90%;
+        display: none;
+    }
+    .game .box{
+        width: 600px;
+        height: 600px;
+        margin: auto;
+        margin-top: 30px;
+    }
+    .game .box>div{
+        width: 30px;
+        height: 30px;
+        float: left;
+        border:1px solid black;
+        box-sizing: border-box;
+    }
+    .she{
+        background: #69C66D;
+    }
+    .food{
+        width: 30px;height: 30px;
+        background: url("img/sgntjrkraua.png")no-repeat;
+        background-size: contain;
+    }
+    /*游戏得分*/
+    .scor{
+        width: 235px;height: 85px;
+        background: url("img/scor.png") no-repeat center;
+        position: absolute;
+        left:30px;
+        top:70px;
+    }
+    .scorinner{
+        width: 100px;height: 30px;
+        margin-left: 130px;
+        margin-top: 43px;
+    }
+    /*游戏结束*/
+     .mask,.mask2{
+        width: 100%;height: 100%;
+        background: rgba(0,0,0,0.5);
+        position: absolute;
+        left: 0;  top: 0;
+        display: none;
+        z-index:99;
+    }
+    .overbox{
+        width: 488px;height:422px;
+        background:url("img/over.png") no-repeat center;
+        margin: auto;
+        /*background: yellow;*/
+        position: relative;
+        margin-top: 100px;
+        color: white;
+        font-size: 24px;
+    }
+    .score{
+        width: 90px;height: 30px;
+        /*background:green;*/
+        line-height: 30px;
+        position: absolute;
+        left:310px;
+        top:155px;
+    }
+    .maxscore{
+        width: 90px;height: 30px;
+        /*background:green;*/
+        position: absolute;
+        left:310px;
+        top:205px;
+        line-height: 30px;
+    }
+    .btns{
+        width: 250px;height: 93px;
+        position: absolute;
+        top:270px;
+        left:0px;
+        right:0;
+        margin:auto;
+        /*background: red;*/
+    }
+
+    /*暂停界面*/
+    .pause{
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top:10px;
+        left:1100px;
+        background: url("img/stop.png")no-repeat;
+        background-size: cover;
+    }
+    .restart{
+        width: 93px;height: 93px;
+        background: url("img/restart.png");
+        float: left;
+        cursor: pointer;
+    }
+    .quit{
+        width: 93px;height: 93px;
+        background: url("img/quit.png");
+        float: right;
+        cursor: pointer;
+        background-size: 100% 100%;
+    }
+    .stopbox{
+        width: 470px;height: 220px;
+        background: url("img/stopbox.png")no-repeat center;
+        position: absolute;
+        left: 0;right: 0;top: 0;bottom: 0;
+        margin: auto;
+        animation:mm 3s linear infinite;
+    }
+    .continue{
+        width: 73px;height: 73px;
+        background: url("img/continue.png")no-repeat;
+        margin-top: 85px;
+        background-size: 100%;
+        margin-left: 70px;
+        cursor: pointer;
+        transition:all 2s;
+    }
+    .continue:hover{
+        transform:scale(1.3);
+    }
+    .stop-restart{
+        width: 83px;height: 83px;
+        background: url("img/restart.png")no-repeat;
+        margin-top: -75px;
+        margin-left: 190px;
+        background-size: 100%;
+        cursor: pointer;
+        transition:all 2s;
+    }
+    .stop-restart:hover{
+        transform:scale(1.3);
+    }
+    .stop-quit{
+        width: 73px;height: 73px;
+        background: url("img/quit.png")no-repeat ;
+        margin-top: -75px;
+        margin-left: 320px;
+        background-size: 100%;
+        cursor: pointer;
+        transition:all 2s;
+    }
+    .stop-quit:hover{
+        transform:scale(1.3);
+    }
+
+    /*选择关卡*/
+    .difficult{
+        width: 440px;height: 302px;
+        position: absolute;
+        background: url("img/difficult.png")no-repeat center;
+        left: 20px;right: 0;top: 80px;bottom: 0;
+        background-size: 100% 100%;
+        margin: auto;
+        display: none;
+        animation:mmm 3s linear infinite;
+    }
+    .choosebox{
+        width:800px;height:50px;
+        margin-top:50px;
+    }
+    .choosebox div{
+        width: 110px;height: 50px;
+    }
+    .easy{
+        width: 110px;height: 50px;
+        background: url("img/easy.png") no-repeat;
+        margin-left: 30px;
+        margin-top: 130px;
+        background-size: 100% 100%;
+        cursor: pointer;
+        transition:all 2s;
+        box-shadow:0 0 5px red;
+    }
+    .easy:hover{
+        transform:scale(1.3);
+    }
+    .mediu{
+        width: 110px;height: 50px;
+        background: url("img/mediu.png") no-repeat;
+        margin-left: 160px;
+        margin-top: -55px;
+        background-size: 100% 100%;
+        cursor: pointer;
+        transition:all 2s;
+    }
+    .mediu:hover{
+        transform:scale(1.3);
+    }
+    .hard{
+        width: 110px;height: 50px;
+        background: url("img/hard.png") no-repeat ;
+        margin-left: 290px;
+        margin-top: -48px;
+        background-size: 100% 100%;
+        cursor: pointer;
+        transition:all 2s;
+    }
+    .hard:hover{
+        transform:scale(1.3);
+    }
+    .back{
+        width: 80px;height: 80px;
+        background: url("img/quit.png") no-repeat center;
+        margin-top:30px;
+        margin-left: 170px;
+        background-size: 100% 100%;
+        cursor: pointer;
+        transition:all 2s;
+    }
+    .back:hover{
+        transform:rotate(360deg);
+    }
+</style>
+<body>
+<!--开幕-->
+<div class="begin">
+
+    <!--文字动画-->
+    <div class="text">
+        <img src="img/begin_text.png" alt="">
+    </div>
+    <!--开始游戏-->
+    <div class="start">开始游戏</div>
+    <!--选择关卡-->
+    <div class="choice">选择关卡</div>
+
+    <div class="difficult">
+        <div class="choosebox">
+            <div class="easy"></div>
+            <div class="mediu"></div>
+            <div class="hard"></div>
+        </div>
+        <div class="back"></div>
+    </div>
+    <!--游戏规则-->
+    <div class="rule">游戏规则</div>
+    <div class="rules">
+        <p>
+            <h3>游戏功能说明</h3>
+            <h4>(1)能够实现贪吃蛇自动向前移动：</h4>
+            <span>根据时间间隔,每一次将贪吃蛇的每节身体分别向前移动一格。移动方向为贪吃蛇当前行走方向。</span>
+            <h4>(2)贪吃蛇操作：</h4>
+            <span>游戏通过键盘的上下左右四个方向控制贪吃蛇当前行走方向,吃掉屏幕上出现的果实。每吃掉一个果实,蛇身增加一节。</span>
+            <h4>(3)游戏规则：</h4>
+            <span>在游戏中,贪吃蛇碰到墙壁和自己的身体时,宣告游戏结束。</span>
+            <h4>(4)果实的出现：</h4>
+            <span>在游戏中,果实的出现,采用随机方式.当前一个果实被吃掉时,屏幕上随机出现另一个果实.果实不与蛇身重合。</span>
+        </p>
+        <a href="javascript:;">&lt;&lt;BACK</a>
+    </div>
+    <!--音乐界面-->
+    <div class="music">
+        <audio src="demo.mp3"autoplay loop></audio>
+    </div>
+</div>
+
+<!--游戏界面-->
+<div class="game">
+    <audio src="great.mp3"class="great"></audio>
+    <audio src="acslent.mp3"class="acslent"></audio>
+    <audio src="WORLD.mp3"class="world"loop></audio>
+    <div class="box"></div>
+    <div class="scor">
+        <div class="scorinner">0</div>
+    </div>
+    <!--游戏结束-->
+    <div class="mask">
+        <div class="overbox">
+            <div class="score">0</div>
+            <div class="maxscore">0</div>
+            <div class="btns">
+                <div class="restart"></div>
+                <div class="quit"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 暂停界面 -->
+    <div class="pause"></div>
+    <div class="mask2">
+        <div class="stopbox">
+            <div class="continue"></div>
+            <div class="stop-restart"></div>
+            <div class="stop-quit"></div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script>
+    //获取元素
+    var music=document.querySelector('.music');
+    var audio=document.querySelector("audio");
+    var flag=true;
+    var totalflag=true;
+    var start=document.querySelector('.begin .start');
+    var begin=document.querySelector('.begin');
+    var game=document.querySelector('.game');
+    var box=document.querySelector('.game .box');
+    var mask=document.querySelector('.mask');
+    var t;
+    var pause=document.querySelector('.pause');
+    var mask2=document.querySelector('.mask2');
+    var continues=document.querySelector('.continue');
+    var stop_restart=document.querySelector('.stop-restart');
+    var stop_quit=document.querySelector('.stop-quit');
+    var choice=document.querySelector('.choice');
+    var difficlut=document.querySelector('.difficult');
+    var back=document.querySelector('.back');
+    var rule=document.querySelector('.rule');
+    var rules=document.querySelector('.rules');
+    var a=document.querySelector('.rules>a');
+    var scorinner=document.querySelector('.scorinner');
+    var scor;
+    var score=document.querySelector('.score');
+    var maxscore=document.querySelector('.maxscore');
+    var time=500;
+    var quit=document.querySelector('.quit');
+    var  restart=document.querySelector('.restart');
+    var bestscore=localStorage.score?localStorage.score:0;
+    var btn=document.querySelectorAll(".choosebox>div");
+    var choosebox=document.querySelector(".choosebox");
+    var great=document.querySelector('.great');
+    var acslent=document.querySelector('.acslent');
+    var world=document.querySelector('.world');
+    var she,food;
+    var way;
+    var newheadx,newheady,oldhead;
+//    console.log(btn)
+
+    //操作音乐
+    music.onclick=function(){
+        if(flag==true){
+            flag=false;
+            music.style.animationPlayState="paused";
+            audio.pause();
+        }else{
+            flag=true;
+            music.style.animationPlayState="running";
+            audio.play();
+        }
+    }
+
+
+//    开始游戏
+    start.onclick=function () {
+        if(totalflag){
+            totalflag=false;
+            begin.style.display='none';
+            game.style.display='block';
+            music.style.animationPlayState="paused";
+            audio.pause();
+            world.play();
+            totalflag=true;
+            init();
+            food=getFood();
+            t=setInterval(move,time);
+
+        }
+    }
+
+    //游戏暂停界面
+    pause.onclick=function () {
+        mask2.style.display='block';
+        clearInterval(t);
+    }
+    //继续游戏
+    continues.onclick=function () {
+        t=setInterval(move,time);
+        mask2.style.display='none';
+    }
+    //重新开始
+    stop_restart.onclick=function () {
+        for(let i=0;i<she.length;i++){
+            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
+            end.classList.remove('she');
+        }
+        she.splice(0,she.length);
+        init();
+        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
+        foodobj.classList.remove('food');
+        food=getFood();
+        t=setInterval(move,time);
+        mask2.style.display='none';
+    }
+
+    //返回游戏界面
+    stop_quit.onclick=function () {
+//        clearInterval(t);
+        mask2.style.display='none';
+        game.style.display='none';
+        begin.style.display='block';
+        world.pause();
+        if(flag){
+            music.style.animationPlayState="running";
+            audio.play();
+        }
+        for(let i=0;i<she.length;i++){
+            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
+            end.classList.remove('she');
+        }
+        she.splice(0,she.length);
+        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
+        foodobj.classList.remove('food');
+    }
+    //创建400个盒子
+    for (let i = 0; i < 20; i++) {
+        for (let j = 0; j < 20; j++) {
+            var div = document.createElement('div');
+            div.id = 'r' + j + '-' + i;
+            box.appendChild(div);
+        }
+    }
+    //初始化游戏
+    function init() {
+        //创建蛇
+        she = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0}];
+        she.forEach(function (value) {
+            let obj = document.querySelector('#r' + value.x + '-' + value.y);
+            obj.classList.add('she');
+        });
+        scor=0;
+        scorinner.innerHTML=scor;
+        way='right';
+    }
+
+    //创建食物
+    function getFood() {
+        //获取事物的位置
+        do{
+            var foodx=Math.floor(Math.random()*20);
+            var foody=Math.floor(Math.random()*20);
+        }while(check(foodx,foody));
+        let obj=document.querySelector('#r'+foodx+'-'+foody);
+        obj.classList.add('food');
+        //食物不能到蛇身上
+        return {x:foodx,y:foody};
+    }
+
+    //检查食物的位置与蛇的位置
+    function check(m,n) {
+//        console.log(she);
+        var result=she.some(function (value) {
+            return value.x==m && value.y==n;
+        });
+        return result;
+    }
+
+    //    蛇动
+        function move() {
+            oldhead=she[she.length-1];
+            switch (way){
+                case 'right':
+                    newheadx=oldhead.x+1;
+                    newheady=oldhead.y;
+                    break;
+                case 'left':
+                    newheadx=oldhead.x-1;
+                    newheady=oldhead.y;
+                    break;
+                case  'top':
+                    newheadx=oldhead.x;
+                    newheady=oldhead.y-1;
+                    break;
+                case 'bottom':
+                    newheadx=oldhead.x;
+                    newheady=oldhead.y+1;
+                    break;
+            }
+        if(newheadx<0||newheadx>19||newheady<0||newheady>19||check(newheadx,newheady)){
+            clearInterval(t);
+            world.pause();
+            mask.style.display='block';
+            score.innerHTML=scor;
+            maxscore.innerHTML=bestscore;
+            return;
+        }
+        var newheadobj=document.querySelector('#r'+newheadx+'-'+newheady);//下一个蛇头
+        newheadobj.className='she';//冲掉类名
+        she.push({x:newheadx,y:newheady});
+
+        if(newheadx==food.x&&newheady==food.y){
+            scor++;
+            scorinner.innerHTML=scor;
+            if(scor<5){
+                great.play();
+            }else{
+                acslent.play();
+            }
+            if(scor<bestscore){
+                maxscore.innerHTML=bestscore;
+            }else{
+                localStorage.score=scor;
+                bestscore=scor;
+                maxscore.innerHTML=bestscore;
+            }
+            food=getFood();
+        }else{
+            var endobj=document.querySelector('#r'+she[0].x+'-'+she[0].y);
+            endobj.classList.remove('she');
+            she.shift();
+        }
+    }
+
+    //判断方向
+    document.onkeydown=function (e) {
+        var ev=e.keyCode;
+        if(ev==37){
+            if(way=='right'){
+                return;
+            }
+            way='left';
+        }else if(ev==38){
+            if(way=='bottom'){
+                return;
+            }
+            way='top';
+        }if(ev==39){
+            if(way=='left'){
+                return;
+            }
+            way='right';
+        }if(ev==40){
+            if(way=='top'){
+                return;
+            }
+            way='bottom';
+        }
+    }
+//游戏结束
+    restart.onclick=function () {
+        world.play();
+        mask.style.display='none';
+        for(let i=0;i<she.length;i++){
+            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
+            end.classList.remove('she');
+        }
+        she.splice(0,she.length);
+        init();
+        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
+        foodobj.classList.remove('food');
+        food=getFood();
+        t=setInterval(move,time);
+    }
+    quit.onclick=function () {
+        mask.style.display='none';
+        game.style.display='none';
+        begin.style.display='block';
+        world.pause();
+        if(flag){
+            music.style.animationPlayState="running";
+            audio.play();
+        }
+        for(let i=0;i<she.length;i++){
+            var end=document.querySelector('#r'+she[i].x+'-'+she[i].y);
+            end.classList.remove('she');
+        }
+        she.splice(0,she.length);
+        let foodobj=document.querySelector('#r'+food.x+'-'+food.y);
+        foodobj.classList.remove('food');
+
+    }
+
+//选择关卡
+    choice.onclick=function () {
+        if(totalflag){
+            totalflag=false;
+            difficlut.style.display='block';
+        }
+        back.onclick=function () {
+            difficlut.style.display='none';
+            totalflag=true;
+        }
+    }
+    for(let i=0;i<btn.length;i++){
+        btn[i].onclick=function () {
+            for(let i=0;i<btn.length;i++){
+                btn[i].style.boxShadow="none";
+            }
+            this.style.boxShadow="0 0 5px red";
+            if(this.className=='easy'){
+                time=500;
+            }else if(this.className=='mediu'){
+                time=300;
+            }else{
+                time=100;
+            }
+        }
+    }
+
+    //游戏规则
+    rule.onclick=function () {
+        if(totalflag){
+            totalflag=false;
+            rules.style.display='block';
+        }
+        a.onclick=function () {
+            rule.style.display='block';
+            rules.style.display='none';
+            totalflag=true;
+        }
+    }
+
+</script>
